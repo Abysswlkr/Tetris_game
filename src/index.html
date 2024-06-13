@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="container">
+    <div class="title-box">
+        <h1>
+            <span>TETRIS</span>
+            <span>TETRIS</span>
+            </h1>
+    </div>
+        <div id="button-container" class="button">
+            <button id="single-player-button" style="margin-right: 50px;">Single Player</button>
+            <button id="multi-player-button" style="margin-right: 50px;">Multiplayer</button>
+            <button id="how-to-play-button"> How to play! </button>
+        </div>
+        <div class="tetris-container">
+            <div id="single-player-container" class="single" style="display: none;">
+                <div class="stats">
+                    <div id="score-1" class="score"></div>
+                    <button id="reset-button-single" style="display: none;">Reset</button>
+                </div>
+                <div class="controls"></div>
+                <canvas id="tetris-game-1" width="300" height="600" ></canvas>
+            </div>
+            <div id="multi-player-container" class="multi" style="display: none;">
+                <div class="stats">
+                    <div id="score-2" class="score">0</div>
+                    <button id="reset-button-single" style="display: none;">Reset</button>
+                </div>
+                <canvas id="tetris-game-2" width="300" height="600"></canvas>
+            </div>
+            <button id="reset-button-multi" style="display: none; transform: translateX(840px) translateY(-350px);" >Reset multiplayer</button>
+        </div>
+
+        <!-- Instructions modal -->
+        <div id="how-to-play-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad" width="24" height="24" viewBox="0 0 24 16" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M2 6m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z" />
+                    <path d="M6 12h4m-2 -2v4" />
+                    <path d="M15 11l0 .01" />
+                    <path d="M18 13l0 .01" />
+                  </svg> Controls <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad" width="24" height="24" viewBox="0 0 24 16" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M2 6m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z" />
+                    <path d="M6 12h4m-2 -2v4" />
+                    <path d="M15 11l0 .01" />
+                    <path d="M18 13l0 .01" />
+                  </svg> </h2>
+                <div class="modal-body" style="display: flex; justify-content: center;">
+                    <!-- Contenido del modal -->
+                    <div style="width: 400px; border: 1px solid #5523dd; border-radius: 10px; margin: 10px;" >
+                        <h4 style="text-decoration:underline;">Single Player</h4>
+                        <p>LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                            <path d="M3 9v6" /> </svg> 
+                            A
+                        </p>
+                        <p>DOWN <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                            <path d="M3 9v6" /> </svg> 
+                            S
+                        </p>
+                        <p>RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                            <path d="M3 9v6" /> </svg> 
+                            D
+                        </p>
+                        <p>TURN RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                            <path d="M3 9v6" /> </svg> 
+                            E
+                        </p>
+                        <p>TURN LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                            <path d="M3 9v6" /> </svg> 
+                            Q
+                        </p>
+                    </div>
+                    <div style="width: 500px; border: 1px solid #5523dd; border-radius: 10px; margin: 10px;" >
+                        <h4 style="text-decoration:underline;">Multiplayer</h4>
+                        <div style="display: flex; justify-content: center; transform: translateY(-20px);">
+                            <div style="margin-right: 15px;">
+                                <p>LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    A
+                                </p>
+                                <p>DOWN <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    S
+                                </p>
+                                <p>RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    D
+                                </p>
+                                <p>TURN RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    E
+                                </p>
+                                <p>TURN LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    Q
+                                </p>
+                            </div>
+                            <div>
+                                <p>LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    A
+                                </p>
+                                <p>DOWN <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    S
+                                </p>
+                                <p>RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    D
+                                </p>
+                                <p>TURN RIGHT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    E
+                                </p>
+                                <p>TURN LEFT <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-line" width="20" height="20" viewBox="0 0 24 15" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-6v-6h6z" />
+                                    <path d="M3 9v6" /> </svg> 
+                                    Q
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="./scripts.js"></script>
+    
+</body>
+</html>

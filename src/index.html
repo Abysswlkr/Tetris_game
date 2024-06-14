@@ -8,31 +8,76 @@
 </head>
 <body class="container">
     <div class="title-box">
-        <h1>
+        <h1 id="title">
             <span>TETRIS</span>
             <span>TETRIS</span>
             </h1>
     </div>
         <div id="button-container" class="button">
             <button id="single-player-button" style="margin-right: 50px;">Single Player</button>
-            <button id="multi-player-button" style="margin-right: 50px;">Multiplayer</button>
+            <button id="multi-player-button" class="non-display" style="margin-right: 50px;">Multiplayer</button>
             <button id="how-to-play-button"> How to play! </button>
         </div>
-        <div class="tetris-container">
+        <div class="tetris-container" id="tetris-container">
             <div id="single-player-container" class="single" style="display: none;">
-                <div class="stats">
-                    <div id="score-1" class="score"></div>
-                    <button id="reset-button-single" style="display: none;">Reset</button>
+                <div id="display-single-flex">
+                    <div class="stats">
+                        <div id="score-1" class="score"></div>
+                        <button id="reset-button-single" style="display: none;">Reset</button>
+                    </div>
+                    <canvas id="tetris-game-1" width="300" height="600"></canvas>
                 </div>
-                <div class="controls"></div>
-                <canvas id="tetris-game-1" width="300" height="600" ></canvas>
-            </div>
+                <div id="controls-single">
+                    <button id="move-left-single"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z" />
+                    </svg></button>
+                    <button id="move-down-single"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M15 4v8h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-8a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1z" />
+                    </svg></button>
+                    <button id="move-right-single"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z" />
+                    </svg></button>
+                    <button id="rotate-left-single"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5" />
+                    </svg></button>
+                    <button id="rotate-right-single"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M19.95 11a8 8 0 1 0 -.5 4m.5 5v-5h-5" />
+                    </svg></button>
+                </div>
+            </div>           
             <div id="multi-player-container" class="multi" style="display: none;">
                 <div class="stats">
                     <div id="score-2" class="score">0</div>
                     <button id="reset-button-single" style="display: none;">Reset</button>
                 </div>
                 <canvas id="tetris-game-2" width="300" height="600"></canvas>
+                <div id="controls-multi">
+                    <button id="move-left-multi"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z" />
+                    </svg></button>
+                    <button id="move-down-multi"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M15 4v8h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-8a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1z" />
+                    </svg></button>
+                    <button id="move-right-multi"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z" />
+                    </svg></button>
+                    <button id="rotate-left-multi"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate-clockwise" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5" />
+                    </svg></button>
+                    <button id="rotate-right-multi"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rotate" width="24" height="24" viewBox="0 0 24 19" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M19.95 11a8 8 0 1 0 -.5 4m.5 5v-5h-5" />
+                    </svg></button>
+                </div>
             </div>
             <button id="reset-button-multi" style="display: none; transform: translateX(350px) translateY(-350px);" >Reset multiplayer</button>
         </div>
@@ -41,19 +86,14 @@
         <div id="how-to-play-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad" width="24" height="24" viewBox="0 0 24 16" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M2 6m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z" />
-                    <path d="M6 12h4m-2 -2v4" />
-                    <path d="M15 11l0 .01" />
-                    <path d="M18 13l0 .01" />
-                  </svg> Controls <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad" width="24" height="24" viewBox="0 0 24 16" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <h2> Controls <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-gamepad" width="24" height="24" viewBox="0 0 24 16" stroke-width="1" stroke="#5523dd" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M2 6m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z" />
                     <path d="M6 12h4m-2 -2v4" />
                     <path d="M15 11l0 .01" />
                     <path d="M18 13l0 .01" />
                   </svg> </h2>
+                  <p style="color: #663cd8;">You can use the screen buttons to move or use the controls below </p>
                 <div class="modal-body" style="display: flex; justify-content: center;">
                     <!-- Contenido del modal -->
                     <div style="width: 400px; border: 1px solid #5523dd; border-radius: 10px; margin: 10px;" >
@@ -161,8 +201,11 @@
                 </div>
             </div>
         </div>
+    <footer id="footer">
+        Made with Javascript, HTML5 and CSS by Miguel Olivares - molibdev
+    </footer>
 
     <script src="./scripts.js"></script>
-    
+
 </body>
 </html>

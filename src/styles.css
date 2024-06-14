@@ -24,7 +24,6 @@ body {
 .tetris-container{
     width: auto;
     height: auto;
-    transform: translateY(-50px);
 }
 
 
@@ -124,6 +123,17 @@ h1 span:last-child {
 
 
 /* buttons */
+#controls-single button, #controls-multi button {
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#controls-single button:hover, #controls-multi button:hover {
+  background-color: #555;
+}
+
 button {
     margin-top: 30px;
     --purple: #5523dd;
@@ -161,6 +171,7 @@ button {
   }
 
 /* Modal --------------------------------------- */
+
 .modal {
   display: none;
   position: fixed;
@@ -224,26 +235,44 @@ button {
     color: white;
 }
 
+#footer {
+  position: fixed;
+  bottom: 10px; /* Ajusta esta propiedad según tu diseño */
+  transform: translateX(-160%);
+  color: white;
+  font-size: 13px;
+  font-family: 'Exo', sans-serif;
+  text-align: center;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente negro */
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+#footer:hover {
+  opacity: 1;
+}
+
 
 /* Responsive modifications */
 
 @media screen and (max-width: 768px) {
   h1 {
-      font-size: 8em; /* Reducir el tamaño del título en tabletas */
+      font-size: 8em; 
   }
   button {
-    font-size: 14px; /* Reducir el tamaño de la fuente en tabletas */
-    padding: 0.6em 2.5em; /* Ajustar el padding */
+    font-size: 14px; 
+    padding: 0.6em 2.5em; 
   }
 
   button:before {
-      left: -3em; /* Ajustar la posición inicial */
-      width: 3em; /* Ajustar el ancho */
+      left: -3em; 
+      width: 3em; 
   }
 
   button:hover:before {
-      transform: translateX(12em); /* Ajustar la animación hover */
-  }
+      transform: translateX(12em);
 
   .stats {
     width: 150px;
@@ -256,25 +285,46 @@ button {
       color: white;
   }
 
+  .non-display {
+    display: none;
+  }
+
+  .modal-content {
+    margin: 10% auto; /* Menor margen para pantallas pequeñas */
+    padding: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem; /* Tamaño de fuente más pequeño para dispositivos muy pequeños */
+  }
+
+  .close {
+    font-size: 1.2rem; /* Tamaño de fuente más pequeño para dispositivos muy pequeños */
+    top: 5px;
+    right: 10px;
+  }
+
+
+}
 
 }
 
 @media screen and (max-width: 480px) {
   h1 {
-      font-size: 6em; /* Reducir aún más el tamaño del título en dispositivos móviles */
+      font-size: 6em; 
   }
   button {
-    font-size: 12px; /* Reducir aún más el tamaño de la fuente en dispositivos móviles */
-    padding: 0.5em 2em; /* Ajustar el padding */
+    font-size: 12px;
+    padding: 0.5em 2em; 
   }
 
   button:before {
-      left: -2em; /* Ajustar la posición inicial */
-      width: 2em; /* Ajustar el ancho */
+      left: -2em;
+      width: 2em;
   }
 
   button:hover:before {
-      transform: translateX(10em); /* Ajustar la animación hover */
+      transform: translateX(10em);
   }
 
   .stats {
@@ -293,4 +343,24 @@ button {
     column-gap: normal;
   }
 
+  .non-display {
+    display: none;
+  }
+  
+  .modal-content {
+    margin: 10% auto; /* Menor margen para pantallas pequeñas */
+    padding: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 0.5rem; /* Tamaño de fuente más pequeño para dispositivos muy pequeños */
+  }
+
+  .close {
+    font-size: 1.2rem; /* Tamaño de fuente más pequeño para dispositivos muy pequeños */
+    top: 5px;
+    right: 10px;
+  }
+
 }
+

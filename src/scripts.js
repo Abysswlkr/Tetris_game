@@ -31,7 +31,6 @@ class Tetris {
         this.gameover = false;
         this.singleGame = false;
         this.animationFrameId = null;
-        
 
         this.playerReset();
         this.updateScore();
@@ -40,7 +39,7 @@ class Tetris {
     createMatrix(w, h) {
         const matrix = [];
         while (h--) {
-            matrix.push(new Array(w).fill(0));
+            matrix.push(new Array(w).fill({value: 0, color: null}));
         }
         return matrix;
     }
@@ -57,12 +56,11 @@ class Tetris {
         }
     }
 
-    drawMatrix(matrix, offset, type) {
-        const color = pieceColors[type] || 'red';
+    drawMatrix(matrix, offset) {
         matrix.forEach((row, y) => {
-            row.forEach((value, x) => {
-                if (value !== 0) {
-                    this.context.fillStyle = color;
+            row.forEach((cell, x) => {
+                if (cell.value !== 0) {
+                    this.context.fillStyle = cell.color;
                     this.context.fillRect(x + offset.x, y + offset.y, 1, 1);
 
                     // Añadir borde negro
@@ -82,14 +80,17 @@ class Tetris {
         this.context.fillStyle = '#000';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawMatrix(this.arena, {x: 0, y: 0});
-        this.drawMatrix(this.player.matrix, this.player.pos, this.player.type);
+        this.drawMatrix(this.player.matrix.map(row => row.map(value => value ? {value, color: pieceColors[this.player.type]} : {value: 0, color: null})), this.player.pos);
     }
 
     merge(arena, player) {
         player.matrix.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value !== 0) {
-                    arena[y + player.pos.y][x + player.pos.x] = value;
+                    arena[y + player.pos.y][x + player.pos.x] = {
+                        value: value,
+                        color: pieceColors[player.type]
+                    };
                 }
             });
         });
@@ -100,7 +101,7 @@ class Tetris {
         for (let y = 0; y < m.length; ++y) {
             for (let x = 0; x < m[y].length; ++x) {
                 if (m[y][x] !== 0 &&
-                   (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
+                   (arena[y + o.y] && arena[y + o.y][x + o.x] && arena[y + o.y][x + o.x].value) !== 0) {
                     return true;
                 }
             }
@@ -167,7 +168,8 @@ class Tetris {
     playerReset() {
         if (!this.gameOver) {
             const pieces = 'FITOLZN';
-            this.player.matrix = this.createPiece(pieces[pieces.length * Math.random() | 0]);
+            this.player.type = pieces[pieces.length * Math.random() | 0];
+            this.player.matrix = this.createPiece(this.player.type);
             this.player.pos.y = 0;
             this.player.pos.x = (this.arena[0].length / 2 | 0) -
                                 (this.player.matrix[0].length / 2 | 0);
@@ -215,10 +217,11 @@ class Tetris {
 
                     // Eliminar el mensaje de Game Over después de 5 segundos
                     setTimeout(() => {
-                        document.body.removeChild(gameOverElement);
+                        if (gameOverElement && gameOverElement.parentNode) {
+                            gameOverElement.parentNode.removeChild(gameOverElement);
+                        }
                     }, 5000);
 
-                    // Mostrar el botón de reinicio
                     if (this.singleGame) {
                         document.getElementById('reset-button-single').style.display = 'block';
                     } else {
@@ -226,7 +229,7 @@ class Tetris {
                     }
                     return;
                 }
-                this.arena.forEach(row => row.fill(0));
+                this.arena.forEach(row => row.fill({value: 0, color: null}));
                 this.score = 0;
                 this.updateScore();
             }
@@ -234,16 +237,47 @@ class Tetris {
     }
 
     sweepArena() {
+        let comboCount = 0; 
+    
         outer: for (let y = this.arena.length - 1; y >= 0; --y) {
             for (let x = 0; x < this.arena[y].length; ++x) {
-                if (this.arena[y][x] === 0) {
+                if (this.arena[y][x].value === 0) {
                     continue outer;
                 }
             }
 
             this.score += 100;
+    
+            if (this.score % 200 === 0) {
+                comboCount++;
+    
+                // Mostrar el mensaje "COMBO!" en pantalla
+                const comboElement = document.createElement('div');
+                comboElement.id = 'combo-message';
+                comboElement.textContent = 'COMBO!';
+                comboElement.style.position = 'fixed';
+                comboElement.style.top = '50%';
+                comboElement.style.left = '50%';
+                comboElement.style.transform = 'translate(-50%, -50%)';
+                comboElement.style.zIndex = '9999';
+                comboElement.style.color = 'white';
+                comboElement.style.fontSize = '2rem';
+                comboElement.style.fontFamily = 'Exo, sans-serif';
+                comboElement.style.textAlign = 'center';
+                comboElement.style.background = 'rgba(0, 0, 0, 0.5)';
+                comboElement.style.padding = '10px 20px';
+                comboElement.style.borderRadius = '10px';
+                document.body.appendChild(comboElement);
+    
+                setTimeout(() => {
+                    if (comboElement && comboElement.parentNode) {
+                        comboElement.parentNode.removeChild(comboElement);
+                    }
+                }, 2000);
+            }
+    
             this.updateScore();
-            const row = this.arena.splice(y, 1)[0].fill(0);
+            const row = this.arena.splice(y, 1)[0].fill({ value: 0, color: null });
             this.arena.unshift(row);
             ++y;
         }
@@ -285,7 +319,7 @@ class Tetris {
                 clearInterval(countdownInterval);
                 document.body.removeChild(countdownElement);
                 this.gameOver = false;
-                this.arena.forEach(row => row.fill(0));
+                this.arena.forEach(row => row.fill({value: 0, color: null}));
                 this.score = 0;
                 this.updateScore();
                 this.start();
@@ -327,18 +361,25 @@ const titleBox = document.querySelector('.title-box');
 
 document.getElementById('single-player-button').addEventListener('click', () => {
     tetris1.singleGame = true;
-    titleBox.style.marginTop = '10px';
+    titleBox.style.marginTop = '20px';
+    document.getElementById('tetris-container').style.transform = 'translateX(45px) translateY(-35px)';
     document.getElementById('button-container').style.display = 'none';
-    document.getElementById('single-player-container').style.display = 'flex';
-    document.getElementById('single-player-container').style.transform = 'translateY(50px) ';
+    document.getElementById('controls-single').style.transform = 'translateX(-1px)';
+    document.getElementById('single-player-container').style.display = 'contents';
+    document.getElementById('display-single-flex').style.display = 'flex';
     document.getElementById('reset-button-multi').style.display = 'none';
     tetris2.stop();
     tetris1.startWithCountdown();
 });
 
 document.getElementById('multi-player-button').addEventListener('click', () => {
-    titleBox.style.marginTop = '10px';
+    titleBox.style.marginTop = '1px';
+    document.getElementById('tetris-container').style.transform = 'translateX(40px) translateY(-35px)';
+    document.getElementById('title').style.fontSize = '10em';
+    document.getElementById('title').style.transition = '0.5s';
     document.getElementById('button-container').style.display = 'none';
+    document.getElementById('controls-single').style.transform = 'translateX(-25px) translateY(-5px)';
+    document.getElementById('controls-multi').style.transform = 'translateX(-25px) translateY(-5px)';
     document.getElementById('single-player-container').style.display = 'inline-block';
     document.getElementById('multi-player-container').style.display = 'inline-block';
     document.getElementById('reset-button-single').style.display = 'none';
@@ -379,6 +420,47 @@ function handleKeyPress(tetris, event) {
         tetris.playerRotate(1);
     }
 }
+
+// buttons movement
+document.getElementById('move-left-single').addEventListener('click', () => {
+    tetris1.playerMove(-1);
+});
+
+document.getElementById('move-right-single').addEventListener('click', () => {
+    tetris1.playerMove(1);
+});
+
+document.getElementById('rotate-left-single').addEventListener('click', () => {
+    tetris1.playerRotate(-1);
+});
+
+document.getElementById('rotate-right-single').addEventListener('click', () => {
+    tetris1.playerRotate(1);
+});
+
+document.getElementById('move-down-single').addEventListener('click', () => {
+    tetris1.playerDrop();
+});
+
+document.getElementById('move-left-multi').addEventListener('click', () => {
+    tetris2.playerMove(-1);
+});
+
+document.getElementById('move-right-multi').addEventListener('click', () => {
+    tetris2.playerMove(1);
+});
+
+document.getElementById('rotate-left-multi').addEventListener('click', () => {
+    tetris2.playerRotate(-1);
+});
+
+document.getElementById('rotate-right-multi').addEventListener('click', () => {
+    tetris2.playerRotate(1);
+});
+
+document.getElementById('move-down-multi').addEventListener('click', () => {
+    tetris2.playerDrop();
+});
 
 
 // Modal instructions
